@@ -1,0 +1,10 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { TtlCache } from '../ttl-cache.js';
+const clock = () => { let t = 1000; const f = () => t; f.tick = (d) => { t += d; }; return f; };
+test('basic set/get/has', () => { const c = new TtlCache({ maxSize: 3, ttlMs: 100, now: clock() }); c.set('a', 1); assert.equal(c.get('a'), 1); assert.equal(c.has('a'), true); assert.equal(c.get('zz'), undefined); assert.equal(c.has('zz'), false); });
+test('expiry at ttl', () => { const now = clock(); const c = new TtlCache({ maxSize: 3, ttlMs: 100, now }); c.set('a', 1); c.set('b', 2); now.tick(99); assert.equal(c.get('a'), 1); now.tick(1); assert.equal(c.get('a'), undefined); assert.equal(c.has('b'), false); assert.equal(c.size, 0); });
+test('get does not extend, set resets', () => { const now = clock(); const c = new TtlCache({ maxSize: 3, ttlMs: 100, now }); c.set('a', 1); now.tick(60); c.get('a'); now.tick(50); assert.equal(c.get('a'), undefined); c.set('b', 1); now.tick(60); c.set('b', 2); now.tick(60); assert.equal(c.get('b'), 2); });
+test('LRU eviction by use', () => { const c = new TtlCache({ maxSize: 2, ttlMs: 1000, now: clock() }); c.set('a', 1); c.set('b', 2); c.get('a'); c.set('c', 3); assert.equal(c.has('b'), false); assert.equal(c.get('a'), 1); assert.equal(c.get('c'), 3); assert.equal(c.size, 2); });
+test('delete', () => { const now = clock(); const c = new TtlCache({ maxSize: 2, ttlMs: 10, now }); c.set('a', 1); assert.equal(c.delete('a'), true); assert.equal(c.delete('a'), false); c.set('b', 1); now.tick(10); assert.equal(c.delete('b'), false); });
+test('constructor validation', () => { for (const o of [{ maxSize: 0, ttlMs: 1 }, { maxSize: 1, ttlMs: -5 }, { maxSize: 1.5, ttlMs: 1 }, { maxSize: 1 }]) assert.throws(() => new TtlCache(o), RangeError); });

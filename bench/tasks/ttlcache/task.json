@@ -1,0 +1,14 @@
+{
+  "target_file": "ttl-cache.js",
+  "test_command": "node --test --test-reporter=tap test/ttl-cache.test.js",
+  "test_files": ["test/ttl-cache.test.js"],
+  "spec": "ES module exporting class `TtlCache`. Constructor: `new TtlCache({ maxSize, ttlMs, now })` where `now` is an optional clock function returning milliseconds (default `Date.now`); always read time through it. Methods: `set(key, value)`, `get(key)` (value or undefined), `has(key)` (boolean), `delete(key)` (boolean: whether it existed), getter `size` (number of live entries). An entry expires `ttlMs` after it was last SET (reading does not extend its life).",
+  "properties": [
+    "set then get returns the value; has is true; unknown keys give undefined / false",
+    "an entry whose age is >= ttlMs is gone: get gives undefined, has gives false, and it is not counted in size",
+    "get does not extend an entry's lifetime, but set on an existing key resets its lifetime and value",
+    "when a set would make more than maxSize live entries, the least recently USED live entry (by get or set) is evicted",
+    "delete removes an entry and returns true, or returns false if it was absent or expired",
+    "constructor throws a RangeError unless maxSize and ttlMs are positive integers"
+  ]
+}

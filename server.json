@@ -1,0 +1,23 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.JoblessJoe/local-llm-worker",
+  "description": "Local LLM does Claude's bulk work: reads logs and files, researches the web, writes test-gated code.",
+  "repository": {
+    "url": "https://github.com/JoblessJoe/local-llm-worker",
+    "source": "github"
+  },
+  "version": "0.1.0",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "local-llm-worker",
+      "version": "0.1.0",
+      "transport": { "type": "stdio" },
+      "environmentVariables": [
+        { "name": "LLW_BASE_URL", "description": "Model server URL (Ollama, llama.cpp, LM Studio, vLLM). Default http://localhost:11434", "isRequired": false, "format": "string" },
+        { "name": "LLW_MODEL", "description": "Model to use; optional if the server has only one", "isRequired": false, "format": "string" },
+        { "name": "LLW_SEARCH_URL", "description": "SearXNG URL for web research (optional)", "isRequired": false, "format": "string" }
+      ]
+    }
+  ]
+}

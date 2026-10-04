@@ -1,0 +1,13 @@
+{
+  "target_file": "csv.js",
+  "test_command": "node --test --test-reporter=tap test/csv.test.js",
+  "test_files": ["test/csv.test.js"],
+  "spec": "ES module exporting `parseCsvLine(line)`: splits ONE line of RFC 4180 CSV into an array of field strings. Separator is a comma. A field may be wrapped in double quotes; inside quotes, commas are literal and a doubled quote (\"\") stands for one quote character. Quotes are only special at the very start of a field. No trimming of whitespace.",
+  "properties": [
+    "unquoted fields are split on every comma, keeping whitespace (\"a, b\" gives [\"a\", \" b\"])",
+    "a quoted field keeps commas literally and has its surrounding quotes removed",
+    "inside a quoted field, \"\" becomes a single \" character",
+    "empty fields are kept, including a trailing empty field (\"a,,\" gives [\"a\", \"\", \"\"]) and the empty line gives [\"\"]",
+    "an unterminated quoted field throws a SyntaxError"
+  ]
+}

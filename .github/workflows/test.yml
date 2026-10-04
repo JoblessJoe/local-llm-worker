@@ -1,0 +1,28 @@
+name: test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node: [18, 20, 22]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - run: git config --global user.name ci && git config --global user.email ci@example.com
+      - name: npm test
+        shell: bash
+        run: npm test 2>&1 | tee test-output.txt
+      - name: Failing tests
+        if: failure()
+        shell: bash
+        run: grep -n -B1 -A30 '^ *not ok' test-output.txt | grep -v -E 'duration_ms|^[0-9]+-\s*$' | head -400

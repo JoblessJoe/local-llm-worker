@@ -1,0 +1,51 @@
+{
+  "name": "local-llm-worker",
+  "version": "0.1.0",
+  "description": "Local LLM does Claude's bulk work: reads logs and files, researches the web, writes test-gated code.",
+  "type": "module",
+  "main": "src/worker.js",
+  "bin": {
+    "local-llm-worker": "src/index.js"
+  },
+  "scripts": {
+    "test": "node --test test/worker.test.js test/hardening.test.js test/edge-cases.test.js",
+    "bump": "node scripts/bump-version.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    ".claude-plugin",
+    ".mcp.json",
+    "hooks",
+    "server.json",
+    "skills",
+    "src"
+  ],
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "claude-code",
+    "claude-code-plugin",
+    "ollama",
+    "llama-cpp",
+    "lm-studio",
+    "vllm",
+    "local-llm",
+    "ai-agents",
+    "code-generation",
+    "tdd",
+    "token-saving"
+  ],
+  "author": "Johannes Tebbert",
+  "license": "MIT",
+  "mcpName": "io.github.JoblessJoe/local-llm-worker",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JoblessJoe/local-llm-worker.git"
+  },
+  "homepage": "https://github.com/JoblessJoe/local-llm-worker#readme",
+  "bugs": {
+    "url": "https://github.com/JoblessJoe/local-llm-worker/issues"
+  }
+}

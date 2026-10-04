@@ -1,0 +1,9 @@
+{
+  "name": "local-llm-worker",
+  "version": "0.1.0",
+  "description": "Local LLM does Claude's bulk work: reads logs and files, researches the web, writes test-gated code.",
+  "author": {
+    "name": "Johannes Tebbert"
+  },
+  "license": "MIT"
+}

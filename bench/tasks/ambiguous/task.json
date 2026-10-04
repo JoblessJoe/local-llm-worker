@@ -1,0 +1,11 @@
+{
+  "target_file": "discount.js",
+  "test_command": "node --test --test-reporter=tap test/discount.test.js",
+  "test_files": ["test/discount.test.js"],
+  "spec": "ES module exporting `applyDiscount(total, customer)`: returns the price to charge. Loyal customers (`customer.loyal === true`) get a discount, and so do large orders.",
+  "properties": [
+    "loyal customers pay less than non-loyal ones for the same order",
+    "large orders get a discount",
+    "the result is never negative"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "target_file": "duration.js",
+  "test_command": "node --test --test-reporter=tap test/duration.test.js",
+  "test_files": ["test/duration.test.js"],
+  "spec": "ES module exporting `parseDuration(str)`: parses a compact duration string such as \"1h30m\" and returns the total number of seconds as an integer. Units: d (86400 s), h (3600 s), m (60 s), s (1 s). Each part is a non-negative integer immediately followed by its unit letter, with no spaces.",
+  "properties": [
+    "a single part returns its value times the unit's seconds (\"2h\" is 7200, \"45s\" is 45)",
+    "several parts are summed (\"1d2h3m4s\" is 93784)",
+    "parts must appear in the order d, h, m, s; any other order throws a TypeError",
+    "a unit may appear at most once; a repeated unit throws a TypeError",
+    "anything else (empty string, unknown unit, number without unit, spaces, non-string input) throws a TypeError"
+  ]
+}

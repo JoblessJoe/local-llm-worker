@@ -1,0 +1,14 @@
+{
+  "target_file": "src/money.js",
+  "test_command": "node --test --test-reporter=tap test/money.test.js",
+  "test_files": ["test/money.test.js"],
+  "spec": "Add a second export `splitCents(total, parts)` to the existing module. It splits an integer amount of cents into `parts` integer shares. Keep `formatCents` exactly as it is.",
+  "properties": [
+    "formatCents behaves exactly as before",
+    "the shares always sum to exactly total, for any integer total including negative ones",
+    "the result has exactly `parts` elements, and no two shares differ by more than 1 cent",
+    "any leftover cents go to the earliest shares first (larger shares come first)",
+    "throws a RangeError unless parts is a positive integer, and a TypeError unless total is an integer"
+  ],
+  "context": "The file uses ES module syntax. Keep the existing header comment and formatCents unchanged."
+}

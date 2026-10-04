@@ -1,0 +1,13 @@
+{
+  "target_file": "intervals.py",
+  "test_command": "{python} -m pytest -q -p no:cacheprovider tests/test_intervals.py",
+  "test_files": ["tests/test_intervals.py"],
+  "spec": "Python 3 module `intervals.py` defining `merge_intervals(intervals)`: takes a list of [start, end] pairs (ints) and returns a NEW list of merged [start, end] lists sorted by start.",
+  "properties": [
+    "overlapping intervals are merged into one spanning both",
+    "intervals that merely touch (end == next start) are merged too",
+    "the output is sorted by start regardless of input order",
+    "the input list and its inner lists are not mutated; an empty input returns []",
+    "a pair with start > end raises ValueError"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "local-llm-worker",
+  "owner": {
+    "name": "Johannes Tebbert"
+  },
+  "plugins": [
+    {
+      "name": "local-llm-worker",
+      "source": "./",
+      "description": "Local LLM does Claude's bulk work: reads logs and files, researches the web, writes test-gated code.",
+      "version": "0.1.0"
+    }
+  ],
+  "description": "Hand narrow jobs from Claude to your local LLM, gated by tests."
+}

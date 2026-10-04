@@ -1,0 +1,63 @@
+name: release
+
+# Every push to main: run the tests, bump the patch version in every file that
+# carries it (scripts/bump-version.mjs), commit and tag that, and cut a GitHub
+# Release. npm and the MCP registry stay manual: npm publish, then
+# mcp-publisher publish. The [skip ci] marker stops the bump commit from
+# triggering this workflow again.
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - run: git config --global user.name "Johannes Tebbert" && git config --global user.email "198243524+JoblessJoe@users.noreply.github.com"
+
+      - run: npm test
+
+      # The current version is released as-is if it has no tag yet (first release,
+      # or a manual `npm run bump minor`); otherwise the patch number goes up.
+      - name: Bump version
+        id: version
+        run: |
+          current=$(node -p "require('./package.json').version")
+          if git rev-parse -q --verify "refs/tags/v$current" >/dev/null; then
+            echo "version=$(node scripts/bump-version.mjs patch)" >> "$GITHUB_OUTPUT"
+            echo "bumped=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "version=$current" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit, tag, push
+        run: |
+          v="${{ steps.version.outputs.version }}"
+          if [ "${{ steps.version.outputs.bumped }}" = "true" ]; then
+            git add package.json .claude-plugin/plugin.json .claude-plugin/marketplace.json server.json
+            git commit -m "Release v$v [skip ci]"
+          fi
+          git tag "v$v"
+          git push origin HEAD:main "v$v"
+
+      - name: GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "v${{ steps.version.outputs.version }}" --generate-notes --title "v${{ steps.version.outputs.version }}"
