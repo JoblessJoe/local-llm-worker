@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url';
 
 import { offload, delegate, chat, research, stripThink, DEFAULTS } from '../src/worker.js';
 import {
-  tmpdir, sh, write, makeRepo, fakeBackend, fakeWeb, makeCtx, TAP_CMD, nodeCmd,
+  tmpdir, sh, write, makeRepo, fakeBackend, fakeWeb, makeCtx, TAP_CMD, nodeCmd, baseEnv,
   ADD_TEST, GOOD_ADD, BAD_ADD, worktrees,
   SUITE,
 } from './helpers.js';
@@ -381,7 +381,7 @@ describe('MCP stdio edge cases', SUITE, () => {
   async function server(extraEnv = {}) {
     const home = await tmpdir('llw-home-');
     const child = spawn(process.execPath, [entry], {
-      env: { ...process.env, HOME: home, XDG_CONFIG_HOME: path.join(home, '.config'), LLW_LOG_PATH: '', ...extraEnv },
+      env: baseEnv({ HOME: home, XDG_CONFIG_HOME: path.join(home, '.config'), LLW_LOG_PATH: '', ...extraEnv }),
       stdio: ['pipe', 'pipe', 'pipe'],
     });
     const lines = [];

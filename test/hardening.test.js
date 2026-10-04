@@ -14,7 +14,7 @@ import {
   isPrivateAddress, DEFAULTS,
 } from '../src/worker.js';
 import {
-  tmpdir, sh, write, makeRepo, fakeBackend, fakeWeb, makeCtx, TAP_CMD, nodeCmd,
+  tmpdir, sh, write, makeRepo, fakeBackend, fakeWeb, makeCtx, TAP_CMD, nodeCmd, baseEnv,
   ADD_TEST, GOOD_ADD, worktrees,
   SUITE,
 } from './helpers.js';
@@ -27,7 +27,7 @@ const fwd = (p) => p.replace(/\\/g, '/');
 describe('A1.1 progress notifications', SUITE, () => {
   function startServer(env) {
     const entry = path.join(path.dirname(fileURLToPath(import.meta.url)), '../src/index.js');
-    const child = spawn(process.execPath, [entry], { env: { ...process.env, ...env }, stdio: ['pipe', 'pipe', 'inherit'] });
+    const child = spawn(process.execPath, [entry], { env: baseEnv(env), stdio: ['pipe', 'pipe', 'inherit'] });
     const messages = [];
     let wake;
     let buf = '';

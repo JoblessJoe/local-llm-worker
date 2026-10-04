@@ -5,5 +5,16 @@
   "author": {
     "name": "Johannes Tebbert"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "icon": "./.claude-plugin/icon.png",
+  "userConfig": {
+    "api_key": {
+      "type": "string",
+      "title": "API key (optional)",
+      "description": "Only for model servers that need one, such as a hosted gateway. Local Ollama, llama.cpp and LM Studio need none. Stored in your OS keychain.",
+      "sensitive": true,
+      "required": false,
+      "default": ""
+    }
+  }
 }

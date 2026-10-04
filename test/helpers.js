@@ -28,6 +28,15 @@ after(async () => {
   }
 });
 
+// The few variables a child process needs to start on Linux, macOS and Windows.
+// Tests pass this instead of the whole environment.
+export function baseEnv(extra = {}) {
+  const keep = ['PATH', 'Path', 'PATHEXT', 'SystemRoot', 'SYSTEMROOT', 'windir', 'ComSpec', 'TEMP', 'TMP', 'TMPDIR', 'USERPROFILE'];
+  const env = {};
+  for (const k of keep) if (process.env[k] !== undefined) env[k] = process.env[k];
+  return { ...env, ...extra };
+}
+
 export async function sh(cwd, ...args) {
   const r = await run(args[0], args.slice(1), { cwd });
   if (r.code !== 0) throw new Error(`${args.join(' ')}: ${r.stderr}`);

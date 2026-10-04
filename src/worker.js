@@ -233,6 +233,14 @@ export async function loadConfig(ctx = {}) {
     sources[key] = `env ${name}`;
   }
 
+  // The plugin's keychain-backed api_key (userConfig), passed in by .mcp.json. It only
+  // fills a key no other layer set; an unset option may arrive empty or unexpanded.
+  const pluginKey = env.LLW_PLUGIN_API_KEY;
+  if (!config.api_key && pluginKey && !pluginKey.startsWith('${')) {
+    config.api_key = pluginKey;
+    sources.api_key = 'plugin settings (keychain)';
+  }
+
   config.base_url = normalizeBaseUrl(config.base_url);
   config.search_url = config.search_url.replace(/\/+$/, '');
   config.log_path = config.log_path ? expandHome(config.log_path, env) : '';

@@ -10,7 +10,7 @@ import {
   extractCode, normalizeBaseUrl, stripThink, DEFAULTS, research, htmlToText, run,
 } from '../src/worker.js';
 import {
-  tmpdir, sh, write, makeRepo, fakeBackend, fakeWeb, makeCtx, TAP_CMD, nodeCmd,
+  tmpdir, sh, write, makeRepo, fakeBackend, fakeWeb, makeCtx, TAP_CMD, nodeCmd, baseEnv,
   ADD_TEST, GOOD_ADD, BAD_ADD, worktrees,
   SUITE,
 } from './helpers.js';
@@ -371,6 +371,19 @@ FAILED tests/test_calc.py::test_total - assert 3 == 4
 // ---------------------------------------------------------------------------
 
 describe('config', SUITE, () => {
+  test('api_key from plugin settings (keychain) fills in only when nothing else set it', async () => {
+    const ctx = await makeCtx(await tmpdir(), { LLW_PLUGIN_API_KEY: 'from-keychain' });
+    let { config, sources } = await loadConfig(ctx);
+    assert.equal(config.api_key, 'from-keychain');
+    assert.equal(sources.api_key, 'plugin settings (keychain)');
+    ({ config } = await loadConfig({ ...ctx, env: { ...ctx.env, LLW_API_KEY: 'explicit' } }));
+    assert.equal(config.api_key, 'explicit');
+    for (const unset of ['', '${user_config.api_key}']) {
+      ({ config } = await loadConfig({ ...ctx, env: { ...ctx.env, LLW_PLUGIN_API_KEY: unset } }));
+      assert.equal(config.api_key, '', JSON.stringify(unset));
+    }
+  });
+
   test('layering: defaults < user < project < env, with sources', async () => {
     const root = await makeRepo();
     const ctx = await makeCtx(path.join(root), { LLW_NUM_CTX: '8192', LLW_LINK_DIRS: 'a, b' });
@@ -647,7 +660,7 @@ describe('MCP stdio', SUITE, () => {
     const home = await tmpdir('llw-home-');
     const entry = path.join(path.dirname(fileURLToPath(import.meta.url)), '../src/index.js');
     child = spawn(process.execPath, [entry], {
-      env: { ...process.env, HOME: home, XDG_CONFIG_HOME: path.join(home, '.config'), LLW_LOG_PATH: '' },
+      env: baseEnv({ HOME: home, XDG_CONFIG_HOME: path.join(home, '.config'), LLW_LOG_PATH: '' }),
       stdio: ['pipe', 'pipe', 'inherit'],
     });
     let buf = '';
@@ -691,7 +704,7 @@ describe('SessionStart hook', () => {
   const hook = path.join(path.dirname(fileURLToPath(import.meta.url)), '../hooks/session-start.mjs');
   async function runHook(extraEnv) {
     const home = await tmpdir('llw-home-');
-    const env = { ...process.env, HOME: home, XDG_CONFIG_HOME: path.join(home, '.config'), CLAUDE_PROJECT_DIR: home, ...extraEnv };
+    const env = baseEnv({ HOME: home, XDG_CONFIG_HOME: path.join(home, '.config'), CLAUDE_PROJECT_DIR: home, ...extraEnv });
     delete env.LLW_AUTO_USE;
     Object.assign(env, extraEnv);
     return new Promise((resolve) => {

@@ -180,7 +180,7 @@ A config file with invalid JSON is an error that names the file.
 |---|---|---|
 | `base_url` | `http://localhost:11434` | Backend root. A trailing `/v1` is stripped. |
 | `api` | `auto` | `auto` · `ollama` · `openai`. Auto probes `/api/version`. |
-| `api_key` | `""` | Sent as `Authorization: Bearer`. Shown as `(set)`, never printed. |
+| `api_key` | `""` | Sent as `Authorization: Bearer`. Shown as `(set)`, never printed. Plugin users can set it under the plugin's settings instead, which keeps it in the OS keychain. |
 | `headers` | `{}` | Extra HTTP headers for a gateway, e.g. `{"X-Api-Key": "..."}`. Values shown as `(set)`. |
 | `model` | `""` | Default model for both tools. |
 | `offload_model` | `""` | Override for `offload` (e.g. long-context). |

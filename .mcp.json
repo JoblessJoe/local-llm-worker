@@ -1,1 +1,13 @@
-{"mcpServers":{"local-llm-worker":{"command":"node","args":["${CLAUDE_PLUGIN_ROOT}/src/index.js"]}}}
+{
+  "mcpServers": {
+    "local-llm-worker": {
+      "command": "node",
+      "args": [
+        "${CLAUDE_PLUGIN_ROOT}/src/index.js"
+      ],
+      "env": {
+        "LLW_PLUGIN_API_KEY": "${user_config.api_key}"
+      }
+    }
+  }
+}
