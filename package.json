@@ -37,7 +37,7 @@
     "tdd",
     "token-saving"
   ],
-  "author": "Johannes Tebbert",
+  "author": "Johannes Tebbert <info@joblessjoe.com> (https://joblessjoe.com)",
   "license": "MIT",
   "mcpName": "io.github.JoblessJoe/local-llm-worker",
   "repository": {
