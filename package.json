@@ -44,7 +44,7 @@
     "type": "git",
     "url": "git+https://github.com/JoblessJoe/local-llm-worker.git"
   },
-  "homepage": "https://github.com/JoblessJoe/local-llm-worker#readme",
+  "homepage": "https://joblessjoe.com/local-llm-worker",
   "bugs": {
     "url": "https://github.com/JoblessJoe/local-llm-worker/issues"
   }

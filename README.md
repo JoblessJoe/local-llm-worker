@@ -10,6 +10,7 @@
 [![Zero dependencies](https://img.shields.io/badge/dependencies-0-brightgreen.svg)](package.json)
 [![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-d97757.svg)](#install)
 [![MCP server](https://img.shields.io/badge/MCP-server-6e56cf.svg)](#use-it-in-any-mcp-client)
+[![Website](https://img.shields.io/badge/website-joblessjoe.com-38cabb.svg)](https://joblessjoe.com/local-llm-worker)
 
 Works with Ollama · llama.cpp · LM Studio · vLLM · LocalAI · any OpenAI-compatible endpoint
 
