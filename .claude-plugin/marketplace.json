@@ -8,7 +8,7 @@
       "name": "local-llm-worker",
       "source": "./",
       "description": "Local LLM does Claude's bulk work: reads logs and files, researches the web, writes test-gated code.",
-      "version": "0.1.2"
+      "version": "0.1.3"
     }
   ],
   "description": "Hand narrow jobs from Claude to your local LLM, gated by tests."
