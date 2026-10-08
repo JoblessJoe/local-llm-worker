@@ -347,3 +347,5 @@ tags it and creates a GitHub Release.
 ## License
 
 [MIT](LICENSE) © Johannes Tebbert
+
+The JoblessJoe logo (`.claude-plugin/icon.png`) is not covered by this license. All rights reserved.
